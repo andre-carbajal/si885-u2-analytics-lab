@@ -64,7 +64,7 @@ The public [pipeline report](https://andre-carbajal.github.io/si885-u2-analytics
 
 This is a **batch pipeline**, not streaming and not a production-scale performance claim. GitHub Pages serves the generated HTML and JSON; it does not run DuckDB queries for each visitor. For larger or continuously arriving data, the design would need durable storage, incremental processing, stronger observability, and an orchestration or warehouse service appropriate to its volume and service-level objectives.
 
-All example orders are synthetic. Currency values are illustrative; they are not a real business dataset.
+All example orders are synthetic. The displayed numbers use a PEN currency format for the Peruvian demo regions, but the CSV itself has no currency field; these are synthetic values, not real sales.
 
 ## Reproduce it
 

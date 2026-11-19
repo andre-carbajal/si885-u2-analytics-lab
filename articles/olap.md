@@ -59,7 +59,7 @@ GROUP BY d.year_month
 ORDER BY d.year_month;
 ~~~
 
-A regional query changes the slice without changing the facts:
+A regional and category rollup changes the grouping without changing the facts:
 
 ~~~sql
 SELECT r.region, p.category, SUM(f.revenue) AS revenue
@@ -82,7 +82,7 @@ One distinction matters: **the site is static**. DuckDB executes during the auto
 
 DuckDB is convenient here because it can query Parquet and execute analytical SQL in-process without a server to provision. It is a good fit for a small teaching/demo workload, not a blanket replacement for a shared warehouse or a database serving many concurrent analysts. A production OLAP platform would also need to handle incremental updates, retention, access control, data contracts, freshness, concurrency, and query monitoring.
 
-The dashboard’s prices are fictional and formatted as dollars only for display. They are not benchmarks or real sales data. The [repository](https://github.com/andre-carbajal/si885-u2-analytics-lab) contains the code, synthetic CSV, tests, and architecture diagram so the example can be reproduced or extended.
+The dashboard formats its synthetic numbers as Peruvian soles to match the demo regions, but the source has no real currency semantics. These values are not benchmarks or real sales data. The [repository](https://github.com/andre-carbajal/si885-u2-analytics-lab) contains the code, synthetic CSV, tests, and architecture diagram so the example can be reproduced or extended.
 
 ## Run it locally
 

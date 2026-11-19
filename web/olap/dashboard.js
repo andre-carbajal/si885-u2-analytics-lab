@@ -1,5 +1,5 @@
 var money = function(value) {
-  return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(value);
+  return new Intl.NumberFormat("es-PE", { style: "currency", currency: "PEN", maximumFractionDigits: 0 }).format(value);
 };
 function renderBars(target, rows, labelKey) {
   var max = Math.max.apply(null, rows.map(function(row) { return row.revenue; }).concat([1]));

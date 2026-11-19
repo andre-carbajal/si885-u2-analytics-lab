@@ -27,7 +27,7 @@ The important choice is to **fail instead of silently dropping bad records**. Fo
 
 The key code is in [pipeline/run.py](https://github.com/andre-carbajal/si885-u2-analytics-lab/blob/main/pipeline/run.py). It binds the file path as a parameter and checks quality before writing output:
 
-~~~python
+```python
 con.execute(
     "CREATE TEMP TABLE source_orders AS "
     "SELECT * FROM read_csv_auto(?, header = true, all_varchar = true)",
@@ -46,7 +46,7 @@ if invalid_rows or duplicate_ids:
     raise ValueError("Data quality gate failed")
 
 con.sql(TRANSFORM_SQL).write_parquet(str(destination), compression="zstd")
-~~~
+```
 
 The SQL casts use <code>TRY_CAST</code> so malformed input can be counted by the validation query instead of crashing halfway through the transform. After the gate passes, the transform uses typed columns and derives revenue once, at the curated boundary.
 
@@ -68,13 +68,13 @@ All example orders are synthetic. The displayed numbers use a PEN currency forma
 
 ## Reproduce it
 
-~~~
+```
 python3.12 -m venv .venv
 source .venv/bin/activate
 python -m pip install -r requirements.txt
 python -m unittest discover -s tests -v
 python build_site.py
 python -m http.server 8000 --directory _site
-~~~
+```
 
 Then open <http://localhost:8000>. The source and the exact workflow are in the [repository](https://github.com/andre-carbajal/si885-u2-analytics-lab).

@@ -9,17 +9,17 @@ This example builds a compact analytical model from the curated output of a Pyth
 
 **Explore:** [live OLAP report](https://andre-carbajal.github.io/si885-u2-analytics-lab/olap/) · [source repository](https://github.com/andre-carbajal/si885-u2-analytics-lab)
 
-![Architecture: curated sales flow into the star schema and OLAP reports](https://raw.githubusercontent.com/andre-carbajal/si885-u2-analytics-lab/main/docs/architecture.svg)
+![Architecture: curated sales flow into the star schema and OLAP reports](https://andre-carbajal.github.io/si885-u2-analytics-lab/assets/architecture.svg)
 
 ## Start from a grain
 
 The grain of <code>fact_sales</code> is **one order line**. In a larger commerce warehouse, an order may have multiple product lines; this demo keeps one product/category per order so the example remains easy to inspect. The fact holds the measurable values (<code>quantity</code>, <code>unit_price</code>, and <code>revenue</code>) plus keys to dimensions.
 
-~~~text
+```text
                     dim_date
                        |
  dim_region ───── fact_sales ───── dim_product
-~~~
+```
 
 The <code>date</code> dimension provides year, quarter, and month; <code>product</code> gives category and product; <code>region</code> provides the geographic slice. Surrogate keys keep the joins explicit, while the original order ID remains available for audit.
 
@@ -27,7 +27,7 @@ The <code>date</code> dimension provides year, quarter, and month; <code>product
 
 The Python builder in [olap/build.py](https://github.com/andre-carbajal/si885-u2-analytics-lab/blob/main/olap/build.py) reads the Parquet output and creates the dimensions and fact table. A simplified part of the model:
 
-~~~sql
+```sql
 CREATE TABLE dim_date AS
 SELECT ROW_NUMBER() OVER (ORDER BY order_date) AS date_key,
        order_date,
@@ -43,7 +43,7 @@ FROM clean_sales s
 JOIN dim_date d USING (order_date)
 JOIN dim_product p USING (product, category)
 JOIN dim_region r USING (region);
-~~~
+```
 
 The model stays deliberately small, but it still enforces a useful separation: facts represent events and measures, while dimensions describe the context in which those events occurred.
 
@@ -51,24 +51,24 @@ The model stays deliberately small, but it still enforces a useful separation: f
 
 A monthly rollup answers “how did sales change over time?”:
 
-~~~sql
+```sql
 SELECT d.year_month, SUM(f.revenue) AS revenue, COUNT(*) AS orders
 FROM fact_sales f
 JOIN dim_date d USING (date_key)
 GROUP BY d.year_month
 ORDER BY d.year_month;
-~~~
+```
 
 A regional and category rollup changes the grouping without changing the facts:
 
-~~~sql
+```sql
 SELECT r.region, p.category, SUM(f.revenue) AS revenue
 FROM fact_sales f
 JOIN dim_region r USING (region_key)
 JOIN dim_product p USING (product_key)
 GROUP BY r.region, p.category
 ORDER BY revenue DESC;
-~~~
+```
 
 The published dashboard adds one more level—month, region, category, and product—so a reader can connect a summary back to its contributing records. This is a practical way to demonstrate roll-up and drill-down: aggregate first, then join additional dimensions to reveal a finer grain.
 
@@ -86,13 +86,13 @@ The dashboard formats its synthetic numbers as Peruvian soles to match the demo 
 
 ## Run it locally
 
-~~~
+```
 python3.12 -m venv .venv
 source .venv/bin/activate
 python -m pip install -r requirements.txt
 python -m unittest discover -s tests -v
 python build_site.py
 python -m http.server 8000 --directory _site
-~~~
+```
 
 Open <http://localhost:8000/olap/> and compare the visible rollups with the SQL in <code>olap/build.py</code>.

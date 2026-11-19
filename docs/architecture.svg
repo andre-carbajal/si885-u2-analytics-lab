@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="360" viewBox="0 0 1200 360" role="img" aria-labelledby="title desc">
+  <title id="title">SI-885 data engineering and OLAP workflow</title>
+  <desc id="desc">Synthetic CSV flows through a Python and DuckDB validation and Parquet pipeline, into a DuckDB star schema and OLAP queries, then GitHub Actions publishes a static dashboard on GitHub Pages.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#65758b"/></marker>
+    <style>
+      .bg{fill:#0b1220}.node{fill:#121e2f;stroke:#33445d;stroke-width:2}.title{font:700 18px system-ui,sans-serif;fill:#f2f5f8}.body{font:14px system-ui,sans-serif;fill:#aebdce}.small{font:12px system-ui,sans-serif;fill:#8fa1b6}.edge{stroke:#65758b;stroke-width:3;fill:none;marker-end:url(#arrow)}.accent{fill:#b8e986}
+    </style>
+  </defs>
+  <rect class="bg" width="1200" height="360" rx="18"/>
+  <text x="48" y="54" class="title" font-size="23">One small warehouse, two lessons</text>
+  <text x="48" y="78" class="body">Data engineering makes the data trustworthy; OLAP makes it explorable.</text>
+  <rect class="node" x="48" y="133" width="190" height="130" rx="12"/>
+  <text x="70" y="171" class="title">Synthetic CSV</text><text x="70" y="200" class="body">20 order rows</text><text x="70" y="226" class="small">No personal data</text>
+  <path class="edge" d="M238 198H292"/>
+  <rect class="node" x="300" y="133" width="225" height="130" rx="12"/>
+  <text x="322" y="171" class="title">Python + DuckDB</text><text x="322" y="200" class="body">Validate · normalize</text><text x="322" y="226" class="small">Fail on bad or duplicate rows</text>
+  <path class="edge" d="M525 198H579"/>
+  <rect class="node" x="587" y="133" width="175" height="130" rx="12"/>
+  <text x="609" y="171" class="title">Parquet</text><text x="609" y="200" class="body">Curated facts</text><text x="609" y="226" class="small">Compressed columnar file</text>
+  <path class="edge" d="M762 198H816"/>
+  <rect class="node" x="824" y="133" width="170" height="130" rx="12"/>
+  <text x="846" y="171" class="title">DuckDB OLAP</text><text x="846" y="200" class="body">Star schema</text><text x="846" y="226" class="small">Slice · dice · drill down</text>
+  <path class="edge" d="M994 198H1045"/>
+  <rect class="node" x="1053" y="133" width="105" height="130" rx="12"/>
+  <text x="1068" y="171" class="title">Pages</text><text x="1068" y="200" class="body">Static</text><text x="1068" y="226" class="small">Public demo</text>
+  <text x="48" y="313" class="small">GitHub Actions rebuilds and deploys on every push to main and on a weekly schedule.</text>
+  <circle class="accent" cx="1126" cy="52" r="7"/>
+</svg>

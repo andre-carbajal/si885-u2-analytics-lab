@@ -20,6 +20,7 @@ def main() -> None:
     (SITE / "assets").mkdir(parents=True, exist_ok=True)
     (SITE / "data").mkdir(parents=True, exist_ok=True)
     shutil.copy2(ROOT / "docs/architecture.svg", SITE / "assets/architecture.svg")
+    shutil.copy2(ROOT / "docs/architecture.png", SITE / "assets/architecture.png")
     pipeline_report = build_pipeline(ROOT / "data/raw/sales.csv", ROOT / "build/curated/sales.parquet")
     (SITE / "data/pipeline.json").write_text(json.dumps(pipeline_report, indent=2), encoding="utf-8")
     olap_report = build_olap(ROOT / "build/curated/sales.parquet", SITE / "data/olap.json")

@@ -9,7 +9,7 @@ For this SI-885 Unit 2 example, I built a small, reproducible pipeline around sy
 
 **Try it:** [live report](https://andre-carbajal.github.io/si885-u2-analytics-lab/data-engineering/) · [public repository](https://github.com/andre-carbajal/si885-u2-analytics-lab)
 
-![Architecture: CSV → validation and transformation → Parquet → DuckDB OLAP → GitHub Pages](https://andre-carbajal.github.io/si885-u2-analytics-lab/assets/architecture.svg)
+![Architecture: CSV → validation and transformation → Parquet → DuckDB OLAP → GitHub Pages](https://andre-carbajal.github.io/si885-u2-analytics-lab/assets/architecture.png)
 
 ## The pipeline contract
 

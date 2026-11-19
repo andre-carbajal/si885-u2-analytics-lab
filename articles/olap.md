@@ -9,7 +9,7 @@ This example builds a compact analytical model from the curated output of a Pyth
 
 **Explore:** [live OLAP report](https://andre-carbajal.github.io/si885-u2-analytics-lab/olap/) · [source repository](https://github.com/andre-carbajal/si885-u2-analytics-lab)
 
-![Architecture: curated sales flow into the star schema and OLAP reports](https://andre-carbajal.github.io/si885-u2-analytics-lab/assets/architecture.svg)
+![Architecture: curated sales flow into the star schema and OLAP reports](https://andre-carbajal.github.io/si885-u2-analytics-lab/assets/architecture.png)
 
 ## Start from a grain
 

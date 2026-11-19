@@ -9,7 +9,7 @@ For this SI-885 Unit 2 example, I built a small, reproducible pipeline around sy
 
 **Try it:** [live report](https://andre-carbajal.github.io/si885-u2-analytics-lab/data-engineering/) · [public repository](https://github.com/andre-carbajal/si885-u2-analytics-lab)
 
-![Architecture: CSV → validation and transformation → Parquet → DuckDB OLAP → GitHub Pages](https://raw.githubusercontent.com/andre-carbajal/si885-u2-analytics-lab/main/docs/architecture.svg)
+![Architecture: CSV → validation and transformation → Parquet → DuckDB OLAP → GitHub Pages](https://andre-carbajal.github.io/si885-u2-analytics-lab/assets/architecture.svg)
 
 ## The pipeline contract
 
@@ -29,7 +29,7 @@ The key code is in [pipeline/run.py](https://github.com/andre-carbajal/si885-u2-
 
 ~~~python
 con.execute(
-    "CREATE TEMP TABLE raw_orders AS "
+    "CREATE TEMP TABLE source_orders AS "
     "SELECT * FROM read_csv_auto(?, header = true, all_varchar = true)",
     [str(source)],
 )
@@ -37,7 +37,7 @@ con.execute(
 invalid_rows = con.execute(VALIDATION_SQL).fetchone()[0]
 duplicate_ids = con.execute(
     "SELECT COUNT(*) FROM ("
-    " SELECT TRIM(order_id) FROM raw_orders"
+    " SELECT TRIM(order_id) FROM source_orders"
     " GROUP BY TRIM(order_id) HAVING COUNT(*) > 1"
     ")"
 ).fetchone()[0]

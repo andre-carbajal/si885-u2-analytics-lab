@@ -9,7 +9,7 @@ import duckdb
 
 VALIDATION_SQL = """
     SELECT COUNT(*)
-    FROM raw_orders
+    FROM source_orders
     WHERE COALESCE(TRIM(order_id), '') = ''
        OR TRY_CAST(order_date AS DATE) IS NULL
        OR COALESCE(TRIM(region), '') = ''
@@ -31,7 +31,7 @@ TRANSFORM_SQL = """
         TRY_CAST(quantity AS INTEGER) AS quantity,
         TRY_CAST(unit_price AS DECIMAL(12, 2)) AS unit_price,
         CAST(TRY_CAST(quantity AS INTEGER) * TRY_CAST(unit_price AS DECIMAL(12, 2)) AS DECIMAL(12, 2)) AS revenue
-    FROM raw_orders
+    FROM source_orders
 """
 
 
@@ -47,13 +47,13 @@ def build(source: Path, destination: Path) -> dict[str, object]:
 
     with duckdb.connect(":memory:") as con:
         con.execute(
-            "CREATE TEMP TABLE raw_orders AS SELECT * FROM read_csv_auto(?, header = true, all_varchar = true)",
+            "CREATE TEMP TABLE source_orders AS SELECT * FROM read_csv_auto(?, header = true, all_varchar = true)",
             [str(source)],
         )
-        row_count = con.execute("SELECT COUNT(*) FROM raw_orders").fetchone()[0]
+        row_count = con.execute("SELECT COUNT(*) FROM source_orders").fetchone()[0]
         invalid_rows = con.execute(VALIDATION_SQL).fetchone()[0]
         duplicate_ids = con.execute(
-            "SELECT COUNT(*) FROM (SELECT TRIM(order_id) FROM raw_orders GROUP BY TRIM(order_id) HAVING COUNT(*) > 1)"
+            "SELECT COUNT(*) FROM (SELECT TRIM(order_id) FROM source_orders GROUP BY TRIM(order_id) HAVING COUNT(*) > 1)"
         ).fetchone()[0]
         if invalid_rows or duplicate_ids:
             raise ValueError(f"Data quality gate failed: {invalid_rows} invalid rows, {duplicate_ids} duplicate order IDs")
